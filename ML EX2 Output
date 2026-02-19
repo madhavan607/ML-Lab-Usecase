@@ -1,9 +1,0 @@
-Information Gain of each attribute:
-
-Fever : 0.8113
-Cough : 0.3113
-Fatigue : 0.3113
-Age : 0.1226
-
-Best Attribute (Root Node): Fever
-
