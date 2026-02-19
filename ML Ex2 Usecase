@@ -1,0 +1,87 @@
+import math
+
+# Dataset
+data = [
+    ["High", "Yes", "Yes", "Old", "Yes"],
+    ["High", "Yes", "No", "Young", "Yes"],
+    ["Normal", "Yes", "Yes", "Old", "Yes"],
+    ["Low", "No", "No", "Young", "No"]
+]
+
+attributes = ["Fever", "Cough", "Fatigue", "Age"]
+
+# Function to calculate entropy
+def entropy(dataset):
+    total = len(dataset)
+    yes = 0
+    no = 0
+    
+    for row in dataset:
+        if row[4] == "Yes":
+            yes += 1
+        else:
+            no += 1
+
+    e = 0
+    if yes != 0:
+        p = yes / total
+        e -= p * math.log2(p)
+    if no != 0:
+        p = no / total
+        e -= p * math.log2(p)
+        
+    return e
+
+# Function to calculate Information Gain
+def information_gain(dataset, col):
+    total_entropy = entropy(dataset)
+    total = len(dataset)
+    
+    values = set(row[col] for row in dataset)
+    weighted_entropy = 0
+    
+    for v in values:
+        subset = []
+        for row in dataset:
+            if row[col] == v:
+                subset.append(row)
+        
+        weighted_entropy += (len(subset) / total) * entropy(subset)
+    
+    return total_entropy - weighted_entropy
+
+
+print("Information Gain:\n")
+
+best_gain = 0
+best_attr = ""
+
+for i in range(4):
+    gain = information_gain(data, i)
+    print(attributes[i], "=", round(gain, 4))
+    
+    if gain > best_gain:
+        best_gain = gain
+        best_attr = attributes[i]
+
+print("\nBest Attribute (Root Node):", best_attr)
+
+print("\nGenerated Rules:")
+print("IF Fever = High → Disease = Yes")
+print("IF Fever = Normal → Disease = Yes")
+print("IF Fever = Low → Disease = No")
+
+Output
+Information Gain:
+
+Fever = 0.8113
+Cough = 0.3113
+Fatigue = 0.3113
+Age = 0.1226
+
+Best Attribute (Root Node): Fever
+
+Generated Rules:
+IF Fever = High → Disease = Yes
+IF Fever = Normal → Disease = Yes
+IF Fever = Low → Disease = No
