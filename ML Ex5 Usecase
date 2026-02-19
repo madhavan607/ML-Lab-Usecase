@@ -1,0 +1,18 @@
+from sklearn.naive_bayes import GaussianNB
+X = [
+    [1,1,1],
+    [1,0,1],
+    [0,1,0],
+    [0,0,1],
+    [0,0,0],
+    [1,0,0]
+]
+
+y = [1,1,1,0,0,0]
+model = GaussianNB()
+model.fit(X,y)
+prediction=model.predict([[1,1,0]])
+print(" Predicition" , "spam" if predicition [0] == 1 else "Not Spam")
+
+Output
+Prediction : Spam
