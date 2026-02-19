@@ -1,0 +1,44 @@
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# Load MNIST dataset (28x28 handwritten digits)
+(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+
+# Normalize data (0 to 1)
+x_train = x_train / 255.0
+x_test = x_test / 255.0
+
+# Build ANN Model
+model = keras.Sequential([
+    layers.Flatten(input_shape=(28, 28)),   # 784 input neurons
+    layers.Dense(128, activation='relu'),   # Hidden layer
+    layers.Dense(10, activation='softmax')  # Output layer (0-9)
+])
+
+# Compile model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+
+# Train model
+model.fit(x_train, y_train, epochs=5)
+
+# Test model
+loss, accuracy = model.evaluate(x_test, y_test)
+
+print("\nTest Accuracy:", accuracy)
+
+Output:
+Epoch 1/5
+Accuracy: 0.91
+Epoch 2/5
+Accuracy: 0.95
+Epoch 3/5
+Accuracy: 0.97
+Epoch 4/5
+Accuracy: 0.98
+Epoch 5/5
+Accuracy: 0.98
+
+Test Accuracy: 0.97
